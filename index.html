@@ -6,20 +6,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="favicon/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
     <title>ToDO</title>
 </head>
 
 <body>
-    <div class="conttainer body__container">
+    <div class="container body__container">
         <div class="header">
             <h1>todo</h1>
-            <img src="images/icon/moon.svg" alt="">
+            <img id="moon" src="images/icon/moon.svg" alt="icon">
+            <img id="shine" src="images/icon/shine.svg" alt="icon">
         </div>
         <form>
-            <input type="text">
-            <button type="submit"><i class="fa-solid fa-plus"></i></button>
+            <input type="text" placeholder="Create a new todo…" required>
+            <button id="btn" type="submit"><i class="fa-solid fa-plus"></i></button>
         </form>
+        <div class="block">
+            <div class="result">
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>Complete online JavaScript course</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>Jog around the park 3x</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>10 minutes meditation</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>Read for 1 hour</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>Pick up groceries</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+                <div class="result_card" onclick="toggleCheckbox(this)">
+                    <div class="textResult">
+                        <input id="checkbox" type="checkbox">
+                        <p>Complete Todo App on Frontend Mentor</p>
+                    </div>
+                    <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+                </div>
+            </div>
+            <div class="bottom">
+                <p>5 items left</p>
+                <ul>
+                    <li>All</li>
+                    <li>Active</li>
+                    <li>Completed</li>
+                </ul>
+                <p>Clear Completed</p>
+            </div>
+        </div>
+        <span>Drag and drop to reorder list</span>
     </div>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
