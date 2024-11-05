@@ -45,6 +45,7 @@
     --cardBorderColor: #E3E4F1;
     --cardColor: #494C6B;
     --cardColorDecoration: #D1D2DA;
+    --colorUnderline: #D1D2DA;
 }
 
 body.dark-mode {
@@ -62,6 +63,7 @@ body.dark-mode {
     --cardBorderColor: #393A4B;
     --cardColor: #C8CBE7;
     --cardColorDecoration: #4D5067;
+    --colorUnderline: #4D5067;
 }
 
 html {
@@ -320,4 +322,9 @@ form {
             border: 1px solid #55DDFF;
         }
     }
+}
+
+#checkbox:checked~#text {
+    color: var(--colorUnderline);
+    text-decoration: line-through;
 }

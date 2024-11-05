@@ -32,19 +32,54 @@ shine && shine.addEventListener('click', function(event) {
     localStorage.setItem('theme', 'light');
 });
 
-// cardResult:
-const cards = document.querySelectorAll('.result_card');
-const imgs = document.querySelectorAll('#clear');
+//  Homework:
+const form = document.querySelector('#form')
+const input = document.querySelector('#input')
+const result = document.querySelector('.result')
+const btn = document.querySelector('#btn')
 
-imgs.forEach((img, index) => {
-    img.addEventListener('click', function() {
-        if (cards[index]) {
-            cards[index].style.display = 'none';
-        }
-    });
+const resultCard = JSON.parse(localStorage.getItem("value")) || []
+
+function CardResult(data) {
+    return `
+    <div class="result_card">
+          <div class="textResult" onclick="toggleCheckbox(this)">
+              <input id="checkbox" type="checkbox">
+              <p id="text">${data.list}</p>
+          </div>
+          <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
+    </div>`
+}
+
+btn && btn.addEventListener('click', function(event) {
+    event.preventDefault()
+
+    let object = {
+        list: input.value
+    }
+
+    if (input.value !== '') {
+        resultCard.unshift(object)
+        const card = CardResult(object);
+        result.innerHTML += card;
+    }
+    localStorage.setItem('value', JSON.stringify(resultCard))
+    form.reset()
 });
 
-// chekbox:
+resultCard.forEach((arg) => {
+    const card = CardResult(arg);
+    result.innerHTML += card;
+});
+
+// Clear:
+const clear = document.getElementById('clear');
+clear && clear.addEventListener('click', function() {
+    result.innerHTML = '';
+    resultCard.length = 0;
+    localStorage.clear();
+});
+
 function toggleCheckbox(card) {
     const checkbox = card.querySelector('input[type="checkbox"]');
     if (checkbox) {
