@@ -32,57 +32,94 @@ shine && shine.addEventListener('click', function(event) {
     localStorage.setItem('theme', 'light');
 });
 
-//  Homework:
-const form = document.querySelector('#form')
-const input = document.querySelector('#input')
-const result = document.querySelector('.result')
-const btn = document.querySelector('#btn')
+// Homework:
+const form = document.querySelector('#form');
+const input = document.querySelector('#input');
+const result = document.querySelector('.result');
+const btn = document.querySelector('#btn');
+const clear = document.querySelector('#clear');
 
-const resultCard = JSON.parse(localStorage.getItem("value")) || []
+function validate(input) {
+    if (input.value.length < 3) {
+        alert('Iltimos qiymat 4ta dan kam bo\'lmasin');
+        input.focus();
+        input.style.borderColor = 'red';
+        return false;
+    }
+    return true;
+}
 
-function CardResult(data) {
+function createCard(data) {
     return `
-    <div class="result_card">
+    <div class="result_card" data-id="${data.id}">
           <div class="textResult" onclick="toggleCheckbox(this)">
               <input id="checkbox" type="checkbox">
-              <p id="text">${data.list}</p>
+              <p id="text">${data.name}</p>
           </div>
-          <img id="clear" src="images/icon/clearIcon.svg" alt="clearIcon">
-    </div>`
+          <img class="delete" src="images/icon/clearIcon.svg" alt="clearIcon" data-id="${data.id}">
+    </div>`;
+}
+
+function getDataFromLocalStorage() {
+    let data = [];
+    if (localStorage.getItem('todos')) {
+        data = JSON.parse(localStorage.getItem('todos'));
+    }
+    return data;
 }
 
 btn && btn.addEventListener('click', function(event) {
-    event.preventDefault()
-
-    let object = {
-        list: input.value
+    event.preventDefault();
+    const isValid = validate(input);
+    if (!isValid) {
+        return;
     }
+    const todo = {
+        id: Date.now(),
+        name: input.value
+    };
+    const card = createCard(todo);
+    result.innerHTML = card + result.innerHTML;
+    input.value = '';
 
-    if (input.value !== '') {
-        resultCard.unshift(object)
-        const card = CardResult(object);
+    let todos = getDataFromLocalStorage();
+    todos.push(todo);
+    localStorage.setItem('todos', JSON.stringify(todos));
+    attachDeleteEvents();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    let todos = getDataFromLocalStorage().reverse();
+    todos.forEach(todo => {
+        let card = createCard(todo);
         result.innerHTML += card;
-    }
-    localStorage.setItem('value', JSON.stringify(resultCard))
-    form.reset()
+    });
+    attachDeleteEvents();
 });
 
-resultCard.forEach((arg) => {
-    const card = CardResult(arg);
-    result.innerHTML += card;
-});
-
-// Clear:
-const clear = document.getElementById('clear');
-clear && clear.addEventListener('click', function() {
-    result.innerHTML = '';
-    resultCard.length = 0;
-    localStorage.clear();
-});
-
-function toggleCheckbox(card) {
-    const checkbox = card.querySelector('input[type="checkbox"]');
-    if (checkbox) {
-        checkbox.checked = !checkbox.checked;
-    }
+function attachDeleteEvents() {
+    let buttons = document.querySelectorAll('.delete');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            let isDelete = confirm('Rostdan ham o`chirmoqchimisiz??');
+            if (isDelete) {
+                let id = this.getAttribute('data-id');
+                this.parentNode.remove();
+                if (id) {
+                    let todos = getDataFromLocalStorage();
+                    todos = todos.filter(value => value.id != id);
+                    localStorage.setItem('todos', JSON.stringify(todos));
+                }
+            }
+        });
+    });
 }
+
+clear && clear.addEventListener('click', function(event) {
+    event.preventDefault();
+    let isClear = confirm('Rostdan ham hammasini o\'chirmoqchimisiz??');
+    if (isClear) {
+        result.innerHTML = '';
+        localStorage.removeItem('todos');
+    }
+});
